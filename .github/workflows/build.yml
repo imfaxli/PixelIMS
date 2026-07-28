@@ -24,6 +24,15 @@ jobs:
       with:
         gradle-version: '8.9'
 
+    - name: Fix version catalog duplicate call in settings
+      run: |
+        if [ -f "settings.gradle.kts" ]; then
+          # Retain only the first occurrence of 'from(' in settings.gradle.kts if duplicated
+          awk '/from\(/{c++} c>1 && /from\(/{next} 1' settings.gradle.kts > settings.tmp && mv settings.tmp settings.gradle.kts
+        elif [ -f "settings.gradle" ]; then
+          awk '/from\(/{c++} c>1 && /from\(/{next} 1' settings.gradle > settings.tmp && mv settings.tmp settings.gradle
+        fi
+
     - name: Build Debug APK
       run: gradle assembleDebug --stacktrace --no-daemon
       
