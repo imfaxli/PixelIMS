@@ -19,11 +19,6 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Fix versionCatalog conflict in settings
-      run: |
-        # Replace the versionCatalogs block with an empty block so Gradle uses libs.versions.toml automatically
-        sed -i '/versionCatalogs {/,/}/d' settings.gradle.kts
-
     - name: Setup Specific Gradle Version
       uses: gradle/actions/setup-gradle@v3
       with:
