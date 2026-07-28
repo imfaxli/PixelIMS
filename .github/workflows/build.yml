@@ -19,14 +19,11 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Setup Gradle 8.9
-      run: |
-        wget https://services.gradle.org/distributions/gradle-8.9-bin.zip
-        unzip -q gradle-8.9-bin.zip
-        echo "$PWD/gradle-8.9/bin" >> $GITHUB_PATH
+    - name: Generate Gradle Wrapper
+      run: gradle wrapper --gradle-version 8.9
 
     - name: Build Debug APK
-      run: gradle assembleDebug --stacktrace --no-daemon
+      run: ./gradlew assembleDebug --stacktrace --no-daemon
       
     - name: Upload APK
       uses: actions/upload-artifact@v4
